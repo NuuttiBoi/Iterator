@@ -4,24 +4,26 @@ import java.lang.reflect.Array;
 import java.util.*;
 
 public class FibonacciSequence implements Sequence{
-  ArrayList<Integer> fibonacciNumbers;
+  ArrayList<Integer> fibonacciNumbers = new ArrayList<>();
   Integer[] numberList;
   @Override
   public Iterator<Integer> iterator() {
-    return fibonacciNumbers.iterator();
+    return new FibonacciIterator(this);
   }
   public void generateFibonacciNumbers(int numbers) {
     numberList = new Integer[numbers];
+    fibonacciNumbers.add(1);
+    fibonacciNumbers.add(1);
     numberList[0] = 1;
     numberList[1] = 1;
     for(int i = 2; i < numbers; i++){
       numberList[i] = numberList[i-2] + numberList[i-1];
-      System.out.println("Number" + i + " = " + numberList[i]);
+      fibonacciNumbers.add(numberList[i]);
     }
-    fibonacciNumbers.addAll(List.of(numberList));
   }
 
   public int getNextNumber(int nextPosition) {
-    return numberList[nextPosition];
+    return fibonacciNumbers.get(nextPosition);
   }
+
 }

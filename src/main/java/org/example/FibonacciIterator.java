@@ -3,33 +3,31 @@ package org.example;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
 
-public class FibonacciIterator implements Iterator {
+public class FibonacciIterator implements java.util.Iterator<Integer> {
   FibonacciSequence fibonacciSequence = new FibonacciSequence();
   Integer[] fibonacciNumbers;
-  int currentPosition;
-  public FibonacciIterator(Integer[] fibonacciNumbers){
-    this.fibonacciNumbers = fibonacciNumbers;
-    fibonacciSequence.generateFibonacciNumbers(10);
+  private int currentPosition;
+  public FibonacciIterator(FibonacciSequence fibonacciSequence){
+    if (fibonacciSequence == null) {
+      throw new IllegalArgumentException("FibonacciSequence cannot be null");
+    }
+    this.fibonacciSequence = fibonacciSequence;
   }
   @Override
   public boolean hasNext() {
-    System.out.println("haista vittu");
-    return currentPosition < fibonacciNumbers.length-1;
+    return currentPosition < 10;
   }
 
   @Override
   public Integer next() {
-    try {
-      if (hasNext()) {
-        int next_number = fibonacciSequence.getNextNumber(currentPosition);
-        currentPosition++;
-        System.out.println("Current: " + currentPosition);
-        return next_number;
-      }
-    } catch (NoSuchElementException e){
-      e.printStackTrace();
+    if(currentPosition == 0){
+      currentPosition++;
+      return 1;
+    } else {
+      int next = fibonacciSequence.getNextNumber(currentPosition);
+      currentPosition++;
+      return next;
     }
-    return null;
   }
 
   @Override
