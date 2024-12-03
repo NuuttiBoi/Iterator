@@ -4,30 +4,24 @@ import java.util.Iterator;
 import java.util.NoSuchElementException;
 
 public class FibonacciIterator implements java.util.Iterator<Integer> {
-  FibonacciSequence fibonacciSequence = new FibonacciSequence();
-  Integer[] fibonacciNumbers;
-  private int currentPosition;
-  public FibonacciIterator(FibonacciSequence fibonacciSequence){
-    if (fibonacciSequence == null) {
-      throw new IllegalArgumentException("FibonacciSequence cannot be null");
-    }
-    this.fibonacciSequence = fibonacciSequence;
-  }
+  private FibonacciSequence fibonacciSequence = new FibonacciSequence();
+  private int currentPosition = 1;
+  private int previousPosition = 0;
+  private int limit = 10;
+  int count = 0;
+
   @Override
   public boolean hasNext() {
-    return currentPosition < 10;
+      return count < limit;
   }
 
   @Override
   public Integer next() {
-    if(currentPosition == 0){
-      currentPosition++;
-      return 1;
-    } else {
-      int next = fibonacciSequence.getNextNumber(currentPosition);
-      currentPosition++;
-      return next;
-    }
+    int nextPosition = fibonacciSequence.getNextNumber(currentPosition, previousPosition);
+    previousPosition = currentPosition;
+    currentPosition = nextPosition;
+    count++;
+    return previousPosition;
   }
 
   @Override
